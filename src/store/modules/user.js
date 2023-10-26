@@ -1,13 +1,59 @@
+import { getToken, setToken, removeToken, setTimeStamp } from '@/utils/auth'
+import { login, getUserInfo } from '@/api/user'
+// 状态
+const state = {
+  token: getToken(), // 设置token为共享状态, 初始化vuex从缓存中读取
+  userInfo: {} // 用户资料 --- 为什么空对象 ？ ===》getters中引用userinfo里的变量，如果设置为null，泽会引起异常和报错
+}
+const mutations = {
+  setToken(state, token) {
+    state.token = token // 将数据设置给vuex
+    setToken(token) // 同步给缓存
+  },
+  removeToken(state) {
+    state.token = null // 将vuex数据置空
+    removeToken() // 同步到缓存
+  },
+  // 设置用户信息
+  setUserInfo(state, result) {
+    state.userInfo = result // 这样是响应式
+    // state.userInfo ={ ... result } // 这样也是响应式， 属于浅拷贝
+    // state.userInfo['username'] = result // 这样不是响应式
+  },
+  // 删除用户信息
+  removeUserInfo(state) {
+    state.userInfo = {}
+  }
+}
+const actions = {
+  async login(context, data) {
+    // 调用api的接口
+    const result = await login(data) // 获取token
+    // 如果为true表示登录成功
+    context.commit('setToken', result) // 设置token
+    // 登录成功, 存入时间戳
+    setTimeStamp() // 设置当前时间戳
+  },
+  logout(context) {
+    context.commit('removeToken')
+  },
+  async getUserInfo(context) {
+    const result = await getUserInfo()
+    context.commit('setUserInfo', result) // 提交用户信息
+    return result // 为什么这样写？ ===》 这里是为后期做权限的时候留下的伏笔
+  }
+}
 export default {
   namespaced: true,
-  state: {},
-  mutations: {},
-  actions: {}
+  state,
+  mutations,
+  actions
 
 }
 // import { login, logout, getInfo } from '@/api/user'
 // import { getToken, setToken, removeToken } from '@/utils/auth'
 // import { resetRouter } from '@/router'
+// import { logout } from './../../api/user';
 
 // const getDefaultState = () => {
 //   return {

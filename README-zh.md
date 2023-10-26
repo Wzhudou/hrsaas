@@ -109,3 +109,17 @@ Modern browsers and Internet Explorer 10+.
 [MIT](https://github.com/PanJiaChen/vue-admin-template/blob/master/LICENSE) license.
 
 Copyright (c) 2017-present PanJiaChen
+
+
+## 开发环境下解决跨域问题
+```
+见 vue.config.js
+```
+## token的时效性
+```
+见： request.js
+```
+## 主页token拦截处理
+```
+见：permission.js
+```
