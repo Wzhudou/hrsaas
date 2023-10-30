@@ -115,11 +115,40 @@ Copyright (c) 2017-present PanJiaChen
 ```
 见 vue.config.js
 ```
+
 ## token的时效性
 ```
 见： request.js
 ```
+
 ## 主页token拦截处理
 ```
 见：permission.js
+auth.js
+
+```
+
+## 获取用户资料
+```
+store/modules/user
+permission.js
+api/user.js
+NavBar
+request.js
+```
+
+## 自定义指定 - 解决获取图片的异常
+```
+directives目录下
+和main.js中
+```
+## 实现登出
+```
+清除token
+删除用户资料
+```
+
+## 路由
+```
+静态路由和动态路由
 ```

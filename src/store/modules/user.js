@@ -1,5 +1,5 @@
 import { getToken, setToken, removeToken, setTimeStamp } from '@/utils/auth'
-import { login, getUserInfo } from '@/api/user'
+import { login, getUserInfo, getUserDetailById } from '@/api/user'
 // 状态
 const state = {
   token: getToken(), // 设置token为共享状态, 初始化vuex从缓存中读取
@@ -35,12 +35,18 @@ const actions = {
     setTimeStamp() // 设置当前时间戳
   },
   logout(context) {
+    // 删除token
     context.commit('removeToken')
+    // 删除用户资料
+    context.commit('removeUserInfo')
   },
   async getUserInfo(context) {
     const result = await getUserInfo()
-    context.commit('setUserInfo', result) // 提交用户信息
-    return result // 为什么这样写？ ===》 这里是为后期做权限的时候留下的伏笔
+    // 获取用户详情
+    const baseInfo = await getUserDetailById(result.userId)
+    const baseResult = { ...result, ...baseInfo }
+    context.commit('setUserInfo', baseResult) // 提交用户信息
+    return baseResult // 为什么这样写？ ===》 这里是为后期做权限的时候留下的伏笔
   }
 }
 export default {

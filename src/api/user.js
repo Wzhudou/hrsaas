@@ -22,6 +22,16 @@ export function getUserInfo(token) {
   })
 }
 
+/**
+ * 根据用户id，获取用户基本信息
+**/
+export function getUserDetailById(id) {
+  return request({
+    url: `/sys/user/${id}`
+    // method: 'get'
+  })
+}
+
 export function logout() {
   return request({
     url: '/vue-admin-template/user/logout',
