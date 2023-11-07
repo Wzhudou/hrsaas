@@ -152,3 +152,9 @@ directives目录下
 ```
 静态路由和动态路由
 ```
+## 利用sync修饰符关闭新增弹层
+```
+this.$emit('update:showDialog', false);
+子组件：update:固定写法 (update:props名称, 值)   ===>件add-dept.vue
+父组件：props.sync ====> 见department/index.vue
+```
