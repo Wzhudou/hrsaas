@@ -61,7 +61,8 @@ export default {
     login() {
       this.$refs.form.validate(isOk => {
         if(isOk) {
-          this.$message.success('成功')
+          // this.$message.success('成功')
+          this.$store.dispatch('user/login', this.loginForm)
         }
       })
     }
