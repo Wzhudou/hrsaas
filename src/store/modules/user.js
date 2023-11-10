@@ -1,4 +1,4 @@
-import { getToken, setToken, removeToken } from '@/utils/auth' // 
+import { getToken, setToken, removeToken } from '@/utils/auth' //
 const state = {
   token: getToken() // 从缓存中读取初始值
 }
