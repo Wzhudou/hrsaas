@@ -29,6 +29,7 @@ service.interceptors.response.use(response => {
   if (success) {
     return data
   }
+  Message({ type: 'error', message })
   return Promise.reject(new Error(message))
 }, error => {
   // error 里面有个message
