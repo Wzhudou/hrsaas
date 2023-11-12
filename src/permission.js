@@ -1,12 +1,12 @@
 import router from './router'
-import nprogress from 'nprogress' // 进度条
+import NProgress from 'nprogress' // 进度条
 import 'nprogress/nprogress.css'
 import store from './store'
 
 const whiteList = ['/login', '/404']
 // 前置守卫
 router.beforeEach((to, from, next) => {
-  nprogress.start()
+  NProgress.start()
   // to 到哪里去 from 从哪里来 next() 通过
   const token = store.getters.token
   // 是否有token
@@ -16,7 +16,7 @@ router.beforeEach((to, from, next) => {
       // 是登录页 =》主页
       next('/')
       // 当next(地址)并没有执行后置守卫
-      nprogress.done()
+      NProgress.done()
     } else {
       // 否登录页 =》 放行
       next()
@@ -29,7 +29,7 @@ router.beforeEach((to, from, next) => {
     } else {
       // 否 =》 登录页
       next('/login')
-      nprogress.done()
+      NProgress.done()
     }
     // next()
   }
