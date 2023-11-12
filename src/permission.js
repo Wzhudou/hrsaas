@@ -37,7 +37,7 @@ router.beforeEach((to, from, next) => {
 
 // 后置守卫
 router.afterEach(() => {
-  nprogress.done()
+  NProgress.done()
 })
 // import router from './router'
 // import store from './store'
