@@ -5,7 +5,7 @@ import store from './store'
 
 const whiteList = ['/login', '/404']
 // 前置守卫
-router.beforeEach((to, from, next) => {
+router.beforeEach(async(to, from, next) => {
   NProgress.start()
   // to 到哪里去 from 从哪里来 next() 通过
   const token = store.getters.token
@@ -18,6 +18,10 @@ router.beforeEach((to, from, next) => {
       // 当next(地址)并没有执行后置守卫
       NProgress.done()
     } else {
+      // 判断是否获取过资料
+      if (!store.getters.userId) {
+        await store.dispatch('user/getUserInfo')
+      }
       // 否登录页 =》 放行
       next()
     }
