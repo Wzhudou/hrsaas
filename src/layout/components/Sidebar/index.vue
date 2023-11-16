@@ -30,6 +30,7 @@ export default {
     ...mapGetters([
       'sidebar'
     ]),
+    // 路由信息的计算属性
     routes() {
       return this.$router.options.routes
     },
