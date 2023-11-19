@@ -2,7 +2,7 @@
   <div class="container">
     <div class="app-container">
       <!-- 展示树形结构 -->
-      <el-tree default-expand-all :data="depts" :props="defaultProps">
+      <el-tree default-expand-all :data="depts" :props="defaultProps" :expand-on-click-node="false">
         <!-- 节点结构 -->
         <!-- v-slot="{node, data}" 只能作用在template标签上-->
         <template v-slot="{data}">
@@ -10,16 +10,16 @@
             <el-col>{{ data.name }}</el-col>
             <el-col :span="4">
               <span class="tree-manager">{{data.managerName}}</span>
-              <el-dropdown>
+              <el-dropdown @command="operateDept">
                 <!-- 显示区域的内容 -->
                 <span class="el-dropdown-link">
                   操作<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <!-- 下拉菜单的选项 -->
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>添加子部门</el-dropdown-item>
-                  <el-dropdown-item>编辑部门</el-dropdown-item>
-                  <el-dropdown-item>删除</el-dropdown-item>
+                  <el-dropdown-item command="add">添加子部门</el-dropdown-item>
+                  <el-dropdown-item command="edit">编辑部门</el-dropdown-item>
+                  <el-dropdown-item command="del">删除</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
             </el-col>
@@ -27,14 +27,20 @@
         </template>
       </el-tree>
     </div>
+    <!-- 放置弹层 sync => 表示会接受子组件的事件 update:showDialog, 值 =》 属性赋值给showDialog-->
+    <add-dept :showDialog.sync="showDialog" />
   </div>
 </template>
 
 <script>
   import { getDepartment } from '@/api/department'
   import { transListToTreeData } from '@/utils'
+  import AddDept from './components/add-dept'
 export default {
   name: 'Department',
+  components: {
+    AddDept,
+  },
   data() {
     return {
       depts: [{
@@ -52,7 +58,8 @@ export default {
       defaultProps: {
         label: 'name', // 表示显示的字段名字
         children: 'children' // 读取子节点的字段名
-      }
+      },
+      showDialog: false, // 控制弹层的显示和隐藏
     }
   },
   created() {
@@ -62,6 +69,13 @@ export default {
     async getDepartment() {
       const result = await getDepartment()
       this.depts = transListToTreeData(result, 0)
+    },
+    // 操作部门方法
+    operateDept(type) {
+      if(type === 'add') {
+        // 添加子部门
+        this.showDialog = true
+      }
     }
   },
 }
