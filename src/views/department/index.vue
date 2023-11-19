@@ -31,6 +31,8 @@
 </template>
 
 <script>
+  import { getDepartment } from '@/api/department'
+  import { transListToTreeData } from '@/utils'
 export default {
   name: 'Department',
   data() {
@@ -51,6 +53,15 @@ export default {
         label: 'name', // 表示显示的字段名字
         children: 'children' // 读取子节点的字段名
       }
+    }
+  },
+  created() {
+    this.getDepartment() // 获取数据的接口
+  },
+  methods: {
+    async getDepartment() {
+      const result = await getDepartment()
+      this.depts = transListToTreeData(result, 0)
     }
   },
 }
