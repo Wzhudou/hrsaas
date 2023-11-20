@@ -43,17 +43,7 @@ export default {
   },
   data() {
     return {
-      depts: [{
-        name: '传智播客',
-        managerName: '管理员',
-        children: [{
-          name: '总裁办',
-          managerName: 'zs'
-        },{
-          name: '行政部',
-          managerName: 'li'
-        }]
-      }], // 数据属性
+      depts: [], // 数据属性
       // 
       defaultProps: {
         label: 'name', // 表示显示的字段名字
