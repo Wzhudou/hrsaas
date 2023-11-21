@@ -72,7 +72,9 @@ export default {
         this.showDialog = true
         this.currentNodeId = id
         // 子组件获取数据 =》 子组件调用子组件的方法获取数据
+       this.$nextTick(() => {
         this.$refs.addDept.getDepartmentDetail(id) // 等同于子组件的this
+       });
       }
     }
   },

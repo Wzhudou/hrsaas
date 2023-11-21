@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="新增部门" :visible="showDialog" @close="close">
+  <el-dialog :title="showTitle" :visible="showDialog" @close="close">
     <!-- 防止弹层内容 -->
     <el-form ref="addDept" :model="formData" :rules="rules" label-width="120px">
       <el-form-item label="部门名称" prop="name">
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { getDepartment, getManagerList, addDepartment, getDepartmentDetail } from '@/api/department'
+import { getDepartment, getManagerList, addDepartment, getDepartmentDetail, updateDepartment } from '@/api/department'
 export default {
   name: 'AddDept',
   props: {
@@ -106,13 +106,25 @@ export default {
       managerList: [] // 存储负责人的列表
     }
   },
+  computed: {
+    showTitle() {
+      return this.formData.id ? '编辑部门' : '新增部门'
+    }
+  },
   created() {
     this.getManagerList()
   },
   methods: {
     close() {
       // 重置表单
-      this.$refs.addDept.resetFields()
+      this.$refs.addDept.resetFields() // 只能重置在模板中绑定的数据
+      this.formData = {
+        code: '', // 部门编码
+        introduce: '', // 部门介绍
+        managerId: '', // 部门负责人id
+        name: '', // 部门的名称
+        pid: '' // 父级部门的id
+      }
       // 关闭弹层
       // 修改父组件的值
       this.$emit('update:showDialog', false)
@@ -125,19 +137,26 @@ export default {
     btnOk() {
       this.$refs.addDept.validate(async isOk => {
         if (isOk) {
-          // 调用新增接口
-          await addDepartment({ ...this.formData, pid: this.currentNodeId })
+          let msg = '新增'
+          if (this.formData.id) {
+            // 编辑子部门场景
+            msg = '更新'
+            await updateDepartment(this.formData)
+          } else {
+            // 新增子部门
+            // 调用新增接口
+            await addDepartment({ ...this.formData, pid: this.currentNodeId })
+          }
           // 通知父组件更新
           this.$emit('updateDepartment')
-          this.$message.success('新增部门成功')
+          this.$message.success(`${msg}部门成功`)
           this.close()
         }
       })
     },
-    // 获取组织的详情
+    // 获取组织的详情 ===》 编辑场景 =》 表单校验需要排除自身重复问题
     async getDepartmentDetail(id) {
       this.formData = await getDepartmentDetail(id)
-      console.log('id', this.formData)
     }
   }
 }
