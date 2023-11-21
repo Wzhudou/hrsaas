@@ -28,7 +28,7 @@
       </el-tree>
     </div>
     <!-- 放置弹层 sync => 表示会接受子组件的事件 update:showDialog, 值 =》 属性赋值给showDialog-->
-    <add-dept :showDialog.sync="showDialog" :currentNodeId="currentNodeId" @updateDepartment="getDepartment"/>
+    <add-dept ref="addDept" :showDialog.sync="showDialog" :currentNodeId="currentNodeId" @updateDepartment="getDepartment"/>
   </div>
 </template>
 
@@ -67,6 +67,12 @@ export default {
         // 添加子部门
         this.showDialog = true
         this.currentNodeId = id
+      } else if(type === 'edit') {
+        // 编辑部门
+        this.showDialog = true
+        this.currentNodeId = id
+        // 子组件获取数据 =》 子组件调用子组件的方法获取数据
+        this.$refs.addDept.getDepartmentDetail(id) // 等同于子组件的this
       }
     }
   },

@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { getDepartment, getManagerList, addDepartment } from '@/api/department'
+import { getDepartment, getManagerList, addDepartment, getDepartmentDetail } from '@/api/department'
 export default {
   name: 'AddDept',
   props: {
@@ -124,6 +124,11 @@ export default {
           this.close()
         }
       })
+    },
+    // 获取组织的详情
+    async getDepartmentDetail(id) {
+      this.formData = await getDepartmentDetail(id)
+      console.log('id', this.formData)
     }
   }
 }
