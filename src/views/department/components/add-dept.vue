@@ -61,7 +61,12 @@ export default {
           { required: true, message: '部门编码不能为空', trigger: 'blur' },
           { min: 2, max: 10, message: '部门编码的长度为2-10个字符', trigger: 'blur' },
           { trigger: 'blur', validator: async(rule, value, callback) => {
-            const result = await getDepartment()
+            let result = await getDepartment()
+            // 判断是否是编辑模式
+            if (this.formData.id) {
+              // 编辑场景 => 不需要检查自身是否重复
+              result = result.filter(item => item.id !== this.formData.id)
+            }
             // 检查result数组中是否存在value
             if (result.some(item => item.code === value)) {
               // true=》存在
@@ -82,7 +87,11 @@ export default {
           { required: true, message: '部门名称不能为空', trigger: 'blur' },
           { min: 2, max: 10, message: '部门名称的长度为2-10个字符', trigger: 'blur' },
           { trigger: 'blur', validator: async(rule, value, callback) => {
-            const result = await getDepartment()
+            let result = await getDepartment()
+            if (this.formData.id) {
+              // 编辑场景 => 不需要检查自身是否重复
+              result = result.filter(item => item.id !== this.formData.id)
+            }
             // 检查result数组中是否存在value
             if (result.some(item => item.name === value)) {
               // true=》存在
