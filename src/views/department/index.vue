@@ -33,7 +33,7 @@
 </template>
 
 <script>
-  import { getDepartment } from '@/api/department'
+  import { getDepartment , delDepartment } from '@/api/department'
   import { transListToTreeData } from '@/utils'
   import AddDept from './components/add-dept'
 export default {
@@ -75,6 +75,13 @@ export default {
        this.$nextTick(() => {
         this.$refs.addDept.getDepartmentDetail(id) // 等同于子组件的this
        });
+      } else {
+        // 删除部门操作
+        this.$confirm('您确定要删除该部门吗').then(async() => {
+          await delDepartment(id)
+          this.$message.success('删除部门成功')
+          this.getDepartment()
+        }).catch(() => {})
       }
     }
   },
