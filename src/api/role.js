@@ -7,3 +7,12 @@ export function getRoleList(params) {
     params // 查询参数
   })
 }
+
+// 新增角色
+export function addRole(data) {
+  return request({
+    method: 'post',
+    url: '/sys/role',
+    data // 查询参数
+  })
+}
