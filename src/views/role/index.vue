@@ -7,18 +7,38 @@
       </div>
       <!-- 表格组件 -->
       <el-table :data="list">
-        <el-table-column prop="name" label="角色" align="center" width="200px"></el-table-column>
-        <el-table-column prop="state" label="启用" align="center" width="200px">
-          <template v-slot = "{ row }">
-            <span>{{ row.state === 1 ? '已启用' : row.state === 0 ? '未启用' : '无' }}</span>
+        <el-table-column prop="name" label="角色" align="center" width="200px">
+          <template v-slot = '{ row }'>
+            <!-- 条件判断 -->
+            <el-input v-if="row.isEdit"></el-input>
+            <span v-else> {{ row.name }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="description" label="描述" align="center"></el-table-column>
+        <el-table-column prop="state" label="启用" align="center" width="200px">
+          <template v-slot = "{ row }">
+            <el-switch v-if="row.isEdit"></el-switch>
+            <span v-else>{{ row.state === 1 ? '已启用' : row.state === 0 ? '未启用' : '无' }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="description" label="描述" align="center">
+          <template v-slot = '{ row }'>
+            <!-- 条件判断 -->
+            <el-input type="textarea" v-if="row.isEdit" size="mini"></el-input>
+            <span v-else> {{ row.description }}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" align="center">
           <template v-slot="{ row }">
-            <el-button type="text" size="mini">分配权限</el-button>
-            <el-button type="text" size="mini">编辑</el-button>
-            <el-button type="text" size="mini">删除</el-button>
+            <template v-if="row.isEdit">
+              <!-- 编辑 -->
+              <el-button type="primary" size="mini">确定</el-button>
+              <el-button size="mini">取消</el-button>
+            </template>
+            <template v-else>
+              <el-button type="text" size="mini">分配权限</el-button>
+              <el-button type="text" size="mini" @click="btnEditRow(row)">编辑</el-button>
+              <el-button type="text" size="mini">删除</el-button>    
+            </template>
           </template>
         </el-table-column>
       </el-table>
@@ -34,7 +54,7 @@
       </el-row>
     </div>
     <!-- 放置弹层 -->
-    <el-dialog title="新增角色" width="500" :visible.sync="showDialog" @close="btnCancel">
+    <el-dialog title="新增角色" width="500px" :visible.sync="showDialog" @close="btnCancel">
       <el-form :model="roleForm" :rules="rules" ref="roleForm">
         <el-form-item prop="name" label="角色名称" label-width="120px">
           <el-input v-model="roleForm.name" style="width: 300px;" size="mini"></el-input>
@@ -47,7 +67,7 @@
         <el-form-item prop="description" label="角色描述" label-width="120px">
           <el-input type="textarea" :rows="3" v-model="roleForm.description" style="width: 300px;" size="mini"></el-input>
         </el-form-item>
-        <el-form-item >
+        <el-form-item>
           <el-row type="flex" justify="center">
             <el-col :span="12">
               <el-button @click="btnOk" size="mini" type="primary">确定</el-button>
@@ -96,6 +116,13 @@ export default {
       const {rows, total} = await getRoleList(this.pageParams)
       this.list = rows;
       this.pageParams.total = total
+      // 针对每一行数据添加编辑标记
+      this.list.forEach(item => {
+        // item.isEdit = false // 初始值为false =》动态添加
+        // 数据响应式：数据变化 视图更新 =》针对已有的属性
+        // 添加的动态属性 =》 不具备响应式特点
+        this.$set(item, 'isEdit', false); // 可以针对目标对象 添加属性 添加响应式 (目标对象, 属性名称, 初始值)
+      });
     },
     handleSizeChange() {},
     
@@ -118,6 +145,10 @@ export default {
       this.$refs.roleForm.resetFields()
 
       this.showDialog = false
+    },
+    // 点击edit
+    btnEditRow(row) {
+      row.isEdit = true
     }
   },
 }
