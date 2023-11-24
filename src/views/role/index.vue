@@ -31,8 +31,8 @@
           <template v-slot="{ row }">
             <template v-if="row.isEdit">
               <!-- 编辑 -->
-              <el-button type="primary" size="mini">确定</el-button>
-              <el-button size="mini">取消</el-button>
+              <el-button type="primary" size="mini" @click="btnEditOk(row)">确定</el-button>
+              <el-button size="mini" @click="row.isEdit = false">取消</el-button>
             </template>
             <template v-else>
               <el-button type="text" size="mini">分配权限</el-button>
@@ -80,7 +80,7 @@
   </div>
 </template>
 <script>
-  import { getRoleList, addRole } from '@/api/role'
+  import { getRoleList, addRole, updateRole } from '@/api/role'
 export default {
   name: 'Role',
   data() {
@@ -155,9 +155,30 @@ export default {
     // 点击edit
     btnEditRow(row) {
       row.isEdit = true
+      // 点击编辑时，显示当前行展示的数据
       row.editRow.name = row.name
       row.editRow.state = row.state
       row.editRow.description = row.description
+    },
+    // 点击确定时触发
+    async btnEditOk(row) {
+      if(row.editRow.name && row.editRow.description) {
+        // 下一步操作
+        await updateRole({...row.editRow, id: row.id })
+        // 更新显示的数据 并退出编辑状态
+        // row.name = row.editRow.name
+        // row.state = row.editRow.state
+        // row.description = row.editRow.description
+        // row.isEdit = false
+        Object.assign(row, { 
+          ...row.editRow,
+           isEdit: false // 退出编辑模式
+          })
+        // 更新成功
+        this.$message.success('更新角色成功')
+      } else {
+        this.$message.warning('角色和描述不能为空');
+      }
     }
   },
 }
