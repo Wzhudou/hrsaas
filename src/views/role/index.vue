@@ -10,20 +10,20 @@
         <el-table-column prop="name" label="角色" align="center" width="200px">
           <template v-slot = '{ row }'>
             <!-- 条件判断 -->
-            <el-input v-if="row.isEdit"></el-input>
+            <el-input v-model="row.editRow.name" v-if="row.isEdit"></el-input>
             <span v-else> {{ row.name }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="state" label="启用" align="center" width="200px">
           <template v-slot = "{ row }">
-            <el-switch v-if="row.isEdit"></el-switch>
+            <el-switch v-model="row.editRow.state" v-if="row.isEdit" :active-value="1" :inactive-value="0"></el-switch>
             <span v-else>{{ row.state === 1 ? '已启用' : row.state === 0 ? '未启用' : '无' }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="description" label="描述" align="center">
           <template v-slot = '{ row }'>
             <!-- 条件判断 -->
-            <el-input type="textarea" v-if="row.isEdit" size="mini"></el-input>
+            <el-input type="textarea" v-model="row.editRow.description" v-if="row.isEdit" size="mini"></el-input>
             <span v-else> {{ row.description }}</span>
           </template>
         </el-table-column>
@@ -122,6 +122,12 @@ export default {
         // 数据响应式：数据变化 视图更新 =》针对已有的属性
         // 添加的动态属性 =》 不具备响应式特点
         this.$set(item, 'isEdit', false); // 可以针对目标对象 添加属性 添加响应式 (目标对象, 属性名称, 初始值)
+        // 声明缓存数据
+        this.$set(item, 'editRow', {
+          name: item.name,
+          description: item.description,
+          state: item.state
+        })
       });
     },
     handleSizeChange() {},
@@ -149,6 +155,9 @@ export default {
     // 点击edit
     btnEditRow(row) {
       row.isEdit = true
+      row.editRow.name = row.name
+      row.editRow.state = row.state
+      row.editRow.description = row.description
     }
   },
 }
