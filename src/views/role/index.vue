@@ -37,7 +37,11 @@
             <template v-else>
               <el-button type="text" size="mini">分配权限</el-button>
               <el-button type="text" size="mini" @click="btnEditRow(row)">编辑</el-button>
-              <el-button type="text" size="mini">删除</el-button>    
+              <!-- <el-button type="text" size="mini">删除</el-button>     -->
+              <el-popconfirm
+                title="这是一段内容确定删除吗？" @onConfirm="confirmDel(row.id)">
+                <el-button slot="reference" type="text" size="mini" style="margin-left: 10px;">删除</el-button>
+              </el-popconfirm>
             </template>
           </template>
         </el-table-column>
@@ -80,7 +84,7 @@
   </div>
 </template>
 <script>
-  import { getRoleList, addRole, updateRole } from '@/api/role'
+  import { getRoleList, addRole, updateRole, delRole } from '@/api/role'
 export default {
   name: 'Role',
   data() {
@@ -179,6 +183,17 @@ export default {
       } else {
         this.$message.warning('角色和描述不能为空');
       }
+    },
+
+    // 点击确认触发
+    async confirmDel(id) {
+      await delRole(id)
+      this.$message.success('删除角色成功')
+      // 如果删除的是最后一个 => 只是删除了，但是后端数据还没有删除
+      if(this.list.length === 1) {
+        this.pageParams.page--
+      }
+      this.getRoleList()
     }
   },
 }
