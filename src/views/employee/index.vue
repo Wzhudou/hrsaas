@@ -41,7 +41,7 @@
           </el-table-column>
           <el-table-column label="部门" prop="departmentName"></el-table-column>
           <el-table-column label="入职时间" prop="timeOfEntry" sortable></el-table-column>
-          <el-table-column label="操作" width="280px">
+          <el-table-column label="操作" width="160px">
             <template>
               <el-button type="text" size="mini">查看</el-button>
               <el-button type="text" size="mini">角色</el-button>
@@ -57,7 +57,10 @@
           :page-size="100" -->
           <el-pagination
             layout="total, prev, pager, next"
-            :total="1000">
+            :total="total"
+            :current-page="queryParams.page"
+            :page-size="queryParams.pagesize"
+            @current-change="handleCurrentChange">
         </el-pagination>
         </el-row>
       </div>
@@ -80,9 +83,12 @@ export default {
       },
       // 查询对应部门下员工接口
       queryParams: {
-        departmentId: null
+        departmentId: null,
+        page: 1, // 当前页码
+        pagesize: 10, // 每页条数
       },
       list: [], // 存储员工列表数据
+      total: 0, // 记录员工总数
     }
   },
   created () {
@@ -108,12 +114,19 @@ export default {
     // 切换节点
     selectNode(node) {
       this.queryParams.departmentId = node.id // 重新记录了参数
+      this.queryParams.page = 1 // 切换部门时，设置页码为1
       this.getEmployeeList() // 切换节点更新表格
     },
     // 获取员工列表
     async getEmployeeList() {
       const {rows, total} = await getEmployeeList(this.queryParams)
       this.list = rows
+      this.total = total
+    },
+    // 切换页码
+    handleCurrentChange(newPage) {
+      this.queryParams.page = newPage
+      this.getEmployeeList()
     }
   },
 }
