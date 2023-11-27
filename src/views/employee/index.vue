@@ -22,7 +22,33 @@
           <el-button size="mini">excel导出</el-button>
         </el-row>
         <!-- 表格组件 -->
+        <el-table :data="list">
+          <el-table-column label="头像" prop="staffPhoto" align="center"></el-table-column>
+          <el-table-column label="姓名" prop="username"></el-table-column>
+          <el-table-column label="手机号" prop="mobile" sortable></el-table-column>
+          <el-table-column label="工号" prop="workNumber" sortable></el-table-column>
+          <el-table-column label="聘用形式" prop="formOfEmployment"></el-table-column>
+          <el-table-column label="部门" prop="departmentName"></el-table-column>
+          <el-table-column label="入职时间" prop="timeOfEntry" sortable></el-table-column>
+          <el-table-column label="操作" width="280px">
+            <template>
+              <el-button type="text" size="mini">查看</el-button>
+              <el-button type="text" size="mini">角色</el-button>
+              <el-button type="text" size="mini">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
         <!-- 分页 -->
+        <el-row type="flex" justify="end" align="middle" style="height: 60px;">
+          <!-- @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page.sync="currentPage1"
+          :page-size="100" -->
+          <el-pagination
+            layout="total, prev, pager, next"
+            :total="1000">
+        </el-pagination>
+        </el-row>
       </div>
     </div>
   </div>
@@ -30,6 +56,7 @@
 
 <script>
   import { getDepartment } from '@/api/department'
+  import { getEmployeeList } from '@/api/employee'
   import { transListToTreeData } from '@/utils'
 export default {
   name: 'Employee',
@@ -43,7 +70,8 @@ export default {
       // 查询对应部门下员工接口
       queryParams: {
         departmentId: null
-      }
+      },
+      list: [], // 存储员工列表数据
     }
   },
   created () {
@@ -63,11 +91,19 @@ export default {
         // 此时意味着树的渲染完毕
         this.$refs.deptTree.setCurrentKey(this.queryParams.departmentId)
       });
+      // 这个时候参数记录了初始id
+      this.getEmployeeList()
     },
     // 切换节点
     selectNode(node) {
-      this.queryParams.departmentId = node.id
+      this.queryParams.departmentId = node.id // 重新记录了参数
+      this.getEmployeeList() // 切换节点更新表格
     },
+    // 获取员工列表
+    async getEmployeeList() {
+      const {rows, total} = await getEmployeeList(this.queryParams)
+      this.list = rows
+    }
   },
 }
 </script>
