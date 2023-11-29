@@ -12,12 +12,13 @@
             class="excel-upload-input"
             type="file"
             accept=".xlsx, .xls"
+            @change="uploadChange"
           >
           <div class="drop">
             <i class="el-icon-upload" />
             <el-button type="text" @click="getTemplate">下载导入模板</el-button>
             <span>将文件拖到此处或
-              <el-button type="text">点击上传</el-button>
+              <el-button type="text" @click="handleUpload">点击上传</el-button>
             </span>
           </div>
         </div>
@@ -30,7 +31,7 @@
   </template>
   <script>
   
-  import { getExportTemplate } from '@/api/employee'
+  import { getExportTemplate, uploadExcel } from '@/api/employee'
   import FileSaver from 'file-saver'
   export default {
     props: {
@@ -43,6 +44,34 @@
         async getTemplate() {
             const result = await getExportTemplate()
             FileSaver.saveAs(result, '员工导入模板.xlsx')
+        },
+        // 弹出文件选择器 - 只有一种方式 =》通过input的type为file，accept只接受什么类型的文件
+        handleUpload() {
+            this.$refs['excel-upload-input'].click()
+        },
+        // 选择了文件
+        async uploadChange(event) {
+            // console.log('eeee', event, event.target.files);
+            // 大于0 表明有文件
+            const files = event.target.files // input文件列表
+            if(files.length) {
+                // 调用上传接口
+                const data = new FormData()
+                data.append('file', files[0])  // 将文件参数加入到formdata中
+                
+                try {
+                    await uploadExcel(data) // 参数 form-data =》file
+                    // 重新加载数据
+                    this.$emit('uploadSuccess') // 通知父组件。上传成功
+                    this.$emit('update:showExcelDialog', false) // 关闭弹层
+                } catch (error) {
+                    // 捕获失败
+                    // 清空文件选择器
+                    // this.$refs['excel-upload-input'].value = ''
+                } finally {
+                    this.$refs['excel-upload-input'].value = ''
+                }
+            }
         }
     }
   }

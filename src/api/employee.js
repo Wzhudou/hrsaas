@@ -25,3 +25,12 @@ export function getExportTemplate() {
     responseType: 'blob' // 使用blob接收二进制文件流
   })
 }
+
+// 上传用户excel接口
+export function uploadExcel(data) {
+  return request({
+    url: '/sys/user/import',
+    method: 'post',
+    data // form-data 类型 =》 上传文件
+  })
+}
