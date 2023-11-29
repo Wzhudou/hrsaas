@@ -26,7 +26,11 @@ service.interceptors.request.use(config => {
 // 响应拦截器
 service.interceptors.response.use(response => {
   // 默认包裹了data
-  const { data, message, success } = response.data
+  // 判断是不是Blob
+  if (response.data instanceof Blob) {
+    return response.data // 返回Blob对象
+  }
+  const { data, message, success } = response.data // 默认是JSON格式
   if (success) {
     return data
   }
