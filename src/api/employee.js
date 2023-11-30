@@ -34,3 +34,11 @@ export function uploadExcel(data) {
     data // form-data 类型 =》 上传文件
   })
 }
+
+// 删除员
+export function delEmployee(id) {
+  return request({
+    url: `/sys/user/${id}`,
+    method: 'delete'
+  })
+}

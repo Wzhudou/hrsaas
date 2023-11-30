@@ -25,7 +25,7 @@
       </div>
       <div class="right">
         <el-row class="opeate-tools" type="flex" justify="end">
-          <el-button size="mini" type="primary">添加员工</el-button>
+          <el-button size="mini" type="primary" @click="$router.push('/employee/detail')">添加员工</el-button>
           <el-button size="mini" @click="showExcelDialog = true">excel导入</el-button>
           <el-button size="mini" @click="exportEmployee">excel导出</el-button>
         </el-row>
@@ -50,10 +50,14 @@
           <el-table-column label="部门" prop="departmentName"></el-table-column>
           <el-table-column label="入职时间" prop="timeOfEntry" sortable></el-table-column>
           <el-table-column label="操作" width="160px">
-            <template>
+            <template v-slot="{ row }">
               <el-button type="text" size="mini">查看</el-button>
               <el-button type="text" size="mini">角色</el-button>
-              <el-button type="text" size="mini">删除</el-button>
+              <!-- <el-button type="text" size="mini">删除</el-button> -->
+              <el-popconfirm
+                title="确认删除改行数据吗？" @onConfirm="confirmDel(row.id)">
+                <el-button slot="reference" type="text" size="mini" style="margin-left: 10px;">删除</el-button>
+              </el-popconfirm>
             </template>
           </el-table-column>
         </el-table>
@@ -80,7 +84,7 @@
 
 <script>
   import { getDepartment } from '@/api/department'
-  import { getEmployeeList, exportEmployee } from '@/api/employee'
+  import { getEmployeeList, exportEmployee, delEmployee } from '@/api/employee'
   import { transListToTreeData } from '@/utils'
   import FileSaver from 'file-saver'
   import ImportExcel from './components/import-excel.vue'
@@ -163,6 +167,20 @@ export default {
       // 使用npm包 =》 直接将blob文件下载到本地
       // FileSaver.saveAs(blob对象，文件名称)
       FileSaver.saveAs(result, '员工信息表.xlsx')
+    },
+
+    async confirmDel(id) {
+      try {
+        await delEmployee(id)
+        if(this.list.length === 1 && this.queryParams.page > 1) { // 说明当前页没有数据
+          this.queryParams.page--
+        }
+        this.getEmployeeList()
+        this.$message.success('删除员工成功')
+      } catch (error) {
+        // console.log(error)
+        
+      }
     }
 
 
