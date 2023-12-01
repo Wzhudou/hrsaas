@@ -125,7 +125,9 @@ export function transListToTreeData(list, rootValue) {
       arr.push(item)
       // 当前节点的id 和 当前节点的子节点的pid 是相等的
       const children = transListToTreeData(list, item.id) // 当前节点的子节点
-      item.children = children // 姜子节点赋值给当前节点
+      if (children.length) {
+        item.children = children // 姜子节点赋值给当前节点
+      }
     }
   })
   return arr
