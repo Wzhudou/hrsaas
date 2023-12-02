@@ -29,6 +29,7 @@
                     size="mini"
                     v-model="userInfo.mobile"
                     class="inputW"
+                    :disabled="!!$route.params.id"
                   />
                 </el-form-item>
               </el-col>
@@ -99,7 +100,7 @@
   
 <script>
   import SelectTree from './components/select-tree.vue'
-  import { addEmployee, getEmployeeDetail } from '@/api/employee'
+  import { addEmployee, getEmployeeDetail, updateEmployee } from '@/api/employee'
     export default {
       components: {
         SelectTree,
@@ -164,9 +165,15 @@
         saveData() {
           this.$refs.userForm.validate(async isOk => {
             if(isOk) {
+              // 编辑模式
+              if(this.$route.params.id) {
+                await updateEmployee(this.userInfo)
+                this.$message.success('更新员工成功')
+              } else {
+                await addEmployee(this.userInfo)
+                this.$message.success('新增员工成功')
+              }
               // 校验通过
-              await addEmployee(this.userInfo)
-              this.$message.success('新增员工成功')
               this.$router.push('/employee')
             }
           })
