@@ -11,7 +11,7 @@ export default {
       icon: 'people'
     }
   }, {
-    path: '/employee/detail', // 员工详情地址
+    path: '/employee/detail/:id?', // 员工详情地址 ? 表示id这个参数 可以有也可以没有
     component: () => import('@/views/employee/detail.vue'),
     hidden: true, // 是否隐藏路由
     meta: {

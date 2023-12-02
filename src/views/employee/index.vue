@@ -51,7 +51,7 @@
           <el-table-column label="入职时间" prop="timeOfEntry" sortable></el-table-column>
           <el-table-column label="操作" width="160px">
             <template v-slot="{ row }">
-              <el-button type="text" size="mini">查看</el-button>
+              <el-button type="text" size="mini" @click="$router.push(`/employee/detail/${row.id}`)">查看</el-button>
               <el-button type="text" size="mini">角色</el-button>
               <!-- <el-button type="text" size="mini">删除</el-button> -->
               <el-popconfirm
