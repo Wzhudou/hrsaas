@@ -3,7 +3,8 @@
         class="avatar-uploader"
         action=""
         :show-file-list="false"
-        :before-upload="beforeAvatarUpload">
+        :before-upload="beforeAvatarUpload"
+        :http-request="uploadImage">
         <img v-if="value" :src="value" class="avatar">
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         <!-- 
@@ -14,6 +15,7 @@
 </template>
 
 <script>
+    import COS from 'cos-js-sdk-v5'
   export default {
     props: {
         value: {
@@ -34,6 +36,31 @@
                 this.$message.error('上传头像图片大小不能超过 5MB!');
             }
             return isJPG && isLt2M;
+        },
+        // 选择图片之后上传
+        uploadImage(params) {
+            // console.log('pppppp', params);  
+            // params.file    
+            const cos = new COS({
+                SecretId: '',
+                SecretKey: ''
+            }) // 完成cos对象的初始化 
+            cos.putObject({
+                Bucket: '', // 存储桶名称 ap-nanjing
+                Region: 'ap-nanjing', // 地域名称
+                Key: params.file.name, // 文件名称
+                StorageClass: 'STANDARD', // 固定值
+                Body: params.file // 文件对象
+            }, (error, data) => {
+                // console.log('dadadada', data);
+                if(data.statusCode === 200 && data.Location) {
+                    // 拿到了腾讯云返回的地址
+                    // 通过input 自定义事件将地址传过去
+                    this.$emit('input', "http://" + data.Location) // 将地址返回
+                } else {
+                    this.$message.error(error.message)
+                }
+            })
         }
     }
   }
