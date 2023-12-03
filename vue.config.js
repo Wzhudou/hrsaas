@@ -39,7 +39,8 @@ module.exports = {
     proxy: {
       // path 目标服务器
       '/api': {
-        target: 'https://heimahr.itheima.net/' // 目标
+        // target: 'https://heimahr.itheima.net/' // 目标 https://heimahr-t.itheima.net
+        target: 'https://heimahr-t.itheima.net/'
       }
     }
     // before: require('./mock/mock-server.js') // 基础模板做的模拟数据，会拦截请求
