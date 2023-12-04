@@ -2,7 +2,8 @@ import router from './router'
 import NProgress from 'nprogress' // 进度条
 import 'nprogress/nprogress.css'
 import store from './store'
-
+import { asyncRouter } from '@/router'
+// 白名单
 const whiteList = ['/login', '/404']
 // 前置守卫
 router.beforeEach(async(to, from, next) => {
@@ -20,10 +21,18 @@ router.beforeEach(async(to, from, next) => {
     } else {
       // 判断是否获取过资料
       if (!store.getters.userId) {
-        await store.dispatch('user/getUserInfo')
+        const { roles } = await store.dispatch('user/getUserInfo')
+        // console.log('rrrr', roles.menus, asyncRouter)
+        // 筛选出有权限的路由
+        const filterRoutes = asyncRouter.filter(item => roles.menus.includes(item.name))
+        store.commit('user/setRoutes', filterRoutes)
+        router.addRoutes([...filterRoutes, { path: '*', redirect: '/404', hidden: true }]) // 添加动态路由信息到路由表
+        // router添加动态路由后，需要转发一下
+        next(to.path) // 目的是让路由拥有信息 =》router的已知缺陷
+      } else {
+        // 否登录页 =》 放行
+        next()
       }
-      // 否登录页 =》 放行
-      next()
     }
   } else {
     // 没有token => 是否白名单

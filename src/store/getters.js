@@ -4,7 +4,8 @@ const getters = {
   token: state => state.user.token,
   avatar: state => state.user.userInfo.staffPhoto, // 头像
   name: state => state.user.userInfo.username, // 用户名称
-  userId: state => state.user.userInfo.userId
+  userId: state => state.user.userInfo.userId,
+  routes: state => state.user.routes
 }
 
 // 便捷访问
