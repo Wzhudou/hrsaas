@@ -47,7 +47,7 @@ export default {
 
     // 添加权限
     addPermission(pid, type) {
-      // 一级权限的type 为1 二级权限的type为2
+      // 一级权限（路由）的type 为1 二级权限（按钮）的type为2
       this.showDialog = true
       this.$nextTick(() => {
         this.$refs.addEditPermission.addPermission(pid, type)

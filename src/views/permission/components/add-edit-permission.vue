@@ -13,7 +13,7 @@
           <el-input v-model="formData.code" style="width:90%" />
         </el-form-item>
         <el-form-item label="权限描述">
-          <el-input v-model="formData.description" style="width:90%" />
+          <el-input type="textarea" v-model="formData.description" style="width:90%" />
         </el-form-item>
         <el-form-item label="开启">
           <el-switch
