@@ -57,3 +57,9 @@ v-model 双向绑定
 封装自定义指令 =》v-permission =》判断Vuex中的points是否有对应标识 =》有 （正常显示） =》无（删除或者禁用）
 ```
 
+
+### 7 数字滚动
+```
+安装vue-count-to 见dashboard/index.vue
+```
+
