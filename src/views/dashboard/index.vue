@@ -135,6 +135,7 @@
             </div>
             <div class="chart">
               <!-- 图表 -->
+              <div ref="social" style="width: 100%; height: 100%;"></div>
             </div>
           </div>
         </div>
@@ -176,6 +177,7 @@
             </div>
             <div class="chart">
               <!-- 图表 -->
+              <div ref="providentFund" style="width: 100%; height: 100%;"></div>
             </div>
           </div>
         </div>
@@ -237,6 +239,7 @@
 <script>
 import CountTo from 'vue-count-to'
 import { mapGetters } from 'vuex'
+import * as echarts from 'echarts' // 引入echarts
 import { getHomeData, getMessageList } from '@/api/home'
 export default {
   components: {
@@ -257,12 +260,71 @@ export default {
     this.getHomeData()
     this.getMessageList()
   },
+  // dom元素渲染完成
+  mounted () {
+    // this.drawSocialPlot()
+  },
   methods: {
     async getHomeData() {
       this.homeData = await getHomeData()
+      this.drawSocialPlot()
+      this.drawProvidentFundPlot()
     },
     async getMessageList() {
       this.message = await getMessageList()
+    },
+    // 绘图 
+    drawSocialPlot() {
+      const social = echarts.init(this.$refs.social)
+      // console.log('aa', this.homeData);
+      social.setOption({
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: this.homeData.socialInsurance?.xAxis
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [
+          {
+            data: this.homeData.socialInsurance?.yAxis,
+            type: 'line',
+            areaStyle: {
+              color: '#04c9be'
+            },
+            lineStyle: {
+              color: '#04c9be'
+            }
+          }
+        ]
+      })
+    },
+    drawProvidentFundPlot() {
+      const providentFund = echarts.init(this.$refs.providentFund)
+      // console.log('aa', this.homeData);
+      providentFund.setOption({
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: this.homeData.providentFund?.xAxis
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [
+          {
+            data: this.homeData.providentFund?.yAxis,
+            type: 'line',
+            areaStyle: {
+              color: '#04c9be'
+            },
+            lineStyle: {
+              color: '#04c9be'
+            }
+          }
+        ]
+      })
     }
   },
 }
