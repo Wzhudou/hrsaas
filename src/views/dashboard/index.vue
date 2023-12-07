@@ -239,7 +239,6 @@
 <script>
 import CountTo from 'vue-count-to'
 import { mapGetters } from 'vuex'
-import * as echarts from 'echarts' // 引入echarts
 import { getHomeData, getMessageList } from '@/api/home'
 export default {
   components: {
@@ -275,7 +274,7 @@ export default {
     },
     // 绘图 
     drawSocialPlot() {
-      const social = echarts.init(this.$refs.social)
+      const social = this.$echarts.init(this.$refs.social)
       // console.log('aa', this.homeData);
       social.setOption({
         xAxis: {
@@ -301,7 +300,7 @@ export default {
       })
     },
     drawProvidentFundPlot() {
-      const providentFund = echarts.init(this.$refs.providentFund)
+      const providentFund = this.$echarts.init(this.$refs.providentFund)
       // console.log('aa', this.homeData);
       providentFund.setOption({
         xAxis: {
