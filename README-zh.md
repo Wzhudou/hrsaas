@@ -72,4 +72,32 @@ v-model 双向绑定
 步骤二：打包分析
     npm run preview -- --report
 
+步骤三：cdn的引入
+    1、webpack排除打包
+        // 配置需要排除的包
+        externals: {
+        'vue': 'Vue',
+        'element-ui': 'ELEMENT',
+        'cos-js-sdk-v5': 'COS'
+        }
+    2、cdn外链注入public/index.html
+        <link href="https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.13/theme-chalk/index.min.css" rel="stylesheet">
+        <!-- built files will be auto injected -->
+        <script src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/vue/2.6.14/vue.min.js"></script>
+        <script src="https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.13/index.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/cos-js-sdk-v5/dist/cos-js-sdk-v5.min.js" ></script>
+
+
+```
+
+
+### 相关资料
+```
+完整gitee项目代码地址: https://gitee.com/shuiruohanyu/heimahr/tree/master
+项目接口文档地址: https://www.apifox.cn/apidoc/shared-e2644216-aad4-4529-a630-78f0631ab076/api-49562537
+项目演示地址: https://heimahr.itheima.net/
+接口实际地址: 示例-https://heimahr.itheima.net/api/sys/login
+项目演示备份地址: https://heimahr-t.itheima.net/ 
+备份接口实际地址: 示例-https://heimahr-t.itheima.net/prod-api/sys/login
+项目笔记地址(语雀-在线，线下笔记已经在资源中): https://www.yuque.com/shuiruohanyu/agxcua
 ```
