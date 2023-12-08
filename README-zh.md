@@ -63,3 +63,13 @@ v-model 双向绑定
 安装vue-count-to 见dashboard/index.vue
 ```
 
+### 8 项目打包
+```
+步骤一：修改路由模式 - 将路由改成history
+    hash: 模式带#，#后面的地址变化不会引起页面的刷新
+    history：没有#，地址变化会引起页面刷新，更符合页面地址的规范（开发环境不刷新webpack配置）
+
+步骤二：打包分析
+    npm run preview -- --report
+
+```
