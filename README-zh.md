@@ -111,6 +111,13 @@ v-model 双向绑定
                 （2）重启nginx
                     mac：   安装目录/bin/nginx -s reload
                     windows：   ./nginx -s reload
+
+        5、使用nginx配置代理解决生产环境跨域问题
+            nginx配置跨域 =》修改nginx配置文件 =》重启服务
+            nginx.conf
+                location /prod-api  {
+                  proxy_pass https://heimahr-t.itheima.net;
+                }
                 
 
 
