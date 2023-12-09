@@ -87,6 +87,38 @@ v-model 双向绑定
         <script src="https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.13/index.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/cos-js-sdk-v5/dist/cos-js-sdk-v5.min.js" ></script>
 
+步骤四：安装nginx
+    手动：
+        项目打包  =》执行脚手架 =》生成html+css+js =》放到服务器托管（node/nginx/docker）=》公众通过地址访问
+        1、npm run buid:prod
+        2、安装Nginx
+         （1）mac
+            brew install nginx // 安装
+            nginx -v // 查看版本
+            brew info nginx // 查看nginx
+         (2) windows 一键安装 =》点击.exe 一闪而过，启动成功 （目录不要含中文，不然会报错）
+        3、将html+js+css  =》放置到对应的nginx目录下的/html下 =》启动nginx服务访问（安装目录/bin/nginx） =》停止命令（安装目录/bin/nginx -s stop）
+            （1）mac查看nginx相关配置 =》 brew info nginx =》安装目录和配置文件（.../nginx.conf） 
+                nginx默认访问端口是8080
+            （2）windows =》点击.exe 一闪而过，启动成功 （目录不要含中文，不然会报错）
+        
+        4、history模式下，页面刷新404问题
+            解决方法：
+                （1）nginx.conf文件 下配置如下
+                    location / {
+                        try_files $uri $uri/ /index.html;
+                    }
+                （2）重启nginx
+                    mac：   安装目录/bin/nginx -s reload
+                    windows：   ./nginx -s reload
+                
+
+
+
+
+    自动：
+        gitlab/阿里云/腾讯云/百度云/...
+
 
 ```
 
