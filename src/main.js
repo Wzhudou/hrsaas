@@ -15,6 +15,9 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 import echarts from './libs/echarts'
+
+import Components from '@/components' // 全局注册组件
+
 // 挂载到vue实例中
 Vue.prototype.$echarts = echarts
 
@@ -35,6 +38,8 @@ Vue.prototype.$echarts = echarts
 // Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 Vue.use(ElementUI)
+
+Vue.use(Components) // 注册全局组件
 
 Vue.config.productionTip = false
 

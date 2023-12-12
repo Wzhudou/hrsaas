@@ -129,6 +129,21 @@ v-model 双向绑定
 
 ```
 
+### 9 组件全局注册
+```
+见 src/components/index.js 和 main.js
+```
+
+
+### 10 全屏
+```
+方法一：
+    document.documentElement.requestFullscreen() 全屏
+    document.exitFullscreen() 退出全屏
+
+方法二：插件
+    npm i screenfull
+```
 
 ### 相关资料
 ```
