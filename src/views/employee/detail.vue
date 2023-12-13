@@ -112,6 +112,12 @@
                 </router-link>
               </el-tooltip>
             </el-row>
+            <!-- vuejs中内置了一个组件 component 可以是任何组件 => 
+              通过is属性来绑定需要显示在该位置的组件 is属性可以直接为 注册组件 的组件名称 -->
+              <!-- 动态组件 =》可以切换组件 => component的使用通常结合了transition与keep-alive -->
+              <el-button type="primary" @click="JobComponent = 'el-button'">切换组件</el-button>
+              <el-button type="primary" @click="JobComponent = 'JobInfo'">切换组件</el-button>
+            <component :is="JobComponent" />
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -121,14 +127,17 @@
 <script>
   import SelectTree from './components/select-tree.vue'
   import ImageUpload from './components/image-upload.vue'
+  import JobInfo from './components/job-info.vue'
   import { addEmployee, getEmployeeDetail, updateEmployee } from '@/api/employee'
     export default {
       components: {
         SelectTree,
         ImageUpload,
+        JobInfo,
       },
       data() {
         return {
+          JobComponent: 'JobInfo',
           activeName: 'first',
           userInfo: {
             username: '', // 用户名

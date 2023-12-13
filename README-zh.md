@@ -151,8 +151,14 @@ v-model 双向绑定
         }
 
 ```
-
-### 11 全屏
+### vue 自带的component组件
+```
+vuejs中内置了一个组件 component 可以是任何组件 => 
+通过is属性来绑定需要显示在该位置的组件 is属性可以直接为 注册组件 的组件名称
+动态组件 =》可以切换组件 => component的使用通常结合了transition与keep-alive
+见 views/employee/detail.vue
+```
+### 12 全屏
 ```
 方法一：
     document.documentElement.requestFullscreen() 全屏
