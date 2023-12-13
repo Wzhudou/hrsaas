@@ -133,9 +133,25 @@ v-model 双向绑定
 ```
 见 src/components/index.js 和 main.js
 ```
+### 10 打印功能
+```
+1、安装npm i vue-print-nb
+2、注册 见 src/components/index.js
+    import Print from 'vue-print-nb'
+    Vue.use(Print)
+3、使用v-print 指令的方式进行打印
+    见 views/employee/components/print
+        <el-row type="flex" justify="end">
+          <!-- 利用v-print完成页面的打印 -->
+          <el-button v-print="printObj" size="mini" type="primary">打印</el-button>
+        </el-row>
+        printObj: {
+            id: 'myPrint', // 要打印的区域
+        }
 
+```
 
-### 10 全屏
+### 11 全屏
 ```
 方法一：
     document.documentElement.requestFullscreen() 全屏

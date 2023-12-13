@@ -1,14 +1,14 @@
 <template>
-    <!-- 因为要布局，所以变成块元素 -->
-    <div>
-        <svg-icon icon-class="fullscreen"></svg-icon>
-    </div>
+  <!-- 因为要布局，所以变成块元素 -->
+  <div>
+    <svg-icon icon-class="fullscreen" />
+  </div>
 </template>
 
 <script>
-    export default {
-        name: 'ScreenFull'
-    }
+export default {
+  name: 'ScreenFull'
+}
 </script>
 
 <style lang="scss" scoped>
