@@ -55,6 +55,7 @@ v-model 双向绑定
 ```
 自定义指定 - 作用在按钮上 - 所有的按钮都可以直接使用
 封装自定义指令 =》v-permission =》判断Vuex中的points是否有对应标识 =》有 （正常显示） =》无（删除或者禁用）
+见 src/directives 和 employee/index.vue
 ```
 
 
