@@ -134,6 +134,7 @@ v-model 双向绑定
 ```
 见 src/components/index.js 和 main.js
 ```
+
 ### 10 打印功能
 ```
 1、安装npm i vue-print-nb
@@ -151,6 +152,7 @@ v-model 双向绑定
         }
 
 ```
+
 ### vue 自带的component组件
 ```
 vuejs中内置了一个组件 component 可以是任何组件 => 
@@ -158,6 +160,7 @@ vuejs中内置了一个组件 component 可以是任何组件 =>
 动态组件 =》可以切换组件 => component的使用通常结合了transition与keep-alive
 见 views/employee/detail.vue
 ```
+
 ### 12 全屏
 ```
 方法一：
@@ -166,7 +169,25 @@ vuejs中内置了一个组件 component 可以是任何组件 =>
 
 方法二：插件
     npm i screenfull
+    见 /src/components/ScreenFull 和 layout/components/Navbar
+
 ```
+
+### 13 动态主体设置
+```
+见 src/components/ThemePicker
+```
+
+### 14 多语言
+```
+步骤一：安装
+    yarn add vue-i18n
+步骤二：单独一个多语言实例化文件
+    src/lang/index.js
+    
+```
+
+
 
 ### 相关资料
 ```

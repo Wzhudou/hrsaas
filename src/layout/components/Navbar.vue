@@ -6,7 +6,9 @@
 
     <div class="right-menu">
       <!-- 防止全屏插件 -->
-      <screen-full/>
+      <screen-full class="right-menu-item"/>
+      <!-- 切换主题组件 -->
+      <theme-picker class="right-menu-item" />
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img v-if="avatar" :src="avatar" class="user-avatar">
@@ -165,6 +167,8 @@ export default {
     float: right;
     height: 100%;
     line-height: 50px;
+    display: flex;
+    align-items: center;
 
     &:focus {
       outline: none;
@@ -176,7 +180,7 @@ export default {
       height: 100%;
       font-size: 18px;
       color: #5a5e66;
-      vertical-align: text-bottom;
+      /* vertical-align: middle; */
 
       &.hover-effect {
         cursor: pointer;
