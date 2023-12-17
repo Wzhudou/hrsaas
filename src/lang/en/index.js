@@ -32,7 +32,7 @@ export default {
     // 登录
     login: 'HRM-Login',
 
-    role: '角色',
+    role: 'role',
     // 审批
     approval: 'Approvals', // 审批
     salaryApproval: 'Salary-Approval',

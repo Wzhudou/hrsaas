@@ -4,6 +4,7 @@ import PageTools from './PageTools'
 // 打印
 import Print from 'vue-print-nb'
 import ThemePicker from './ThemePicker'
+import LangSelect from './lang'
 // 主题颜色替换
 export default {
   install(Vue) {
@@ -12,6 +13,7 @@ export default {
     Vue.component('ScreenFull', ScreenFull)
     Vue.use(Print) // 注册打印组件
     Vue.component('ThemePicker', ThemePicker)
+    Vue.component('LangSelect', LangSelect)
   }
 }
 

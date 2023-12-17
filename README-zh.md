@@ -184,7 +184,9 @@ vuejs中内置了一个组件 component 可以是任何组件 =>
     yarn add vue-i18n
 步骤二：单独一个多语言实例化文件
     src/lang/index.js
-    
+步骤三：见src/lang 和 main.js
+步骤四：见src/components/lang
+步骤五：见 layout/components/SidebarItem
 ```
 
 

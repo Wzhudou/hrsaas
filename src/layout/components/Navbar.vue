@@ -5,6 +5,8 @@
     <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
+      <!-- 放置多语言 -->
+      <lang-select class="right-menu-item" />
       <!-- 防止全屏插件 -->
       <screen-full class="right-menu-item"/>
       <!-- 切换主题组件 -->
