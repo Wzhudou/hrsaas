@@ -5,6 +5,7 @@ import PageTools from './PageTools'
 import Print from 'vue-print-nb'
 import ThemePicker from './ThemePicker'
 import LangSelect from './lang'
+import TagsView from './TagsView'
 // 主题颜色替换
 export default {
   install(Vue) {
@@ -14,6 +15,7 @@ export default {
     Vue.use(Print) // 注册打印组件
     Vue.component('ThemePicker', ThemePicker)
     Vue.component('LangSelect', LangSelect)
+    Vue.component('TagsView', TagsView)
   }
 }
 

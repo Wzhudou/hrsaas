@@ -189,6 +189,14 @@ vuejs中内置了一个组件 component 可以是任何组件 =>
 步骤五：见 layout/components/SidebarItem
 ```
 
+### 15 多页签
+```
+步骤一：注册TagsView 
+    src/components/index.js
+步骤二：将tagsView.js放置到 src/store/modules
+步骤三 将多页签功能放置到 layout/index.vue
+```
+
 
 
 ### 相关资料

@@ -23,6 +23,7 @@ router.beforeEach(async(to, from, next) => {
       if (!store.getters.userId) {
         const { roles } = await store.dispatch('user/getUserInfo')
         // console.log('rrrr', roles.menus, asyncRouter)
+        await store.dispatch('permission/filterRoutes', roles.menus)
         // 筛选出有权限的路由
         const filterRoutes = asyncRouter.filter(item => roles.menus.includes(item.name))
         store.commit('user/setRoutes', filterRoutes)
